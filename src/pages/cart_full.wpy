@@ -1,0 +1,31 @@
+<style lang="less">
+.container {
+  background-color: pink;
+}
+</style>
+<template>
+  <searchbar></searchbar>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Searchbar from '../components/searchbar/searchbar' // alias example
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '顶部标题test'
+  }
+
+  components = {
+    searchbar: Searchbar
+  }
+
+  data = {
+    value: 'input默认值'
+  }
+
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>

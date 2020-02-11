@@ -1,0 +1,22 @@
+<style>
+</style>
+<template>
+  <view>接收：{{mytitle}}</view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class extends wepy.component {
+  data = {
+    inputShowed: false,
+    inputVal: ''
+  }
+  props = {
+    mytitle: String
+  }
+
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>

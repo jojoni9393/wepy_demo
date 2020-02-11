@@ -1,0 +1,95 @@
+<style lang="less">
+.br {
+  margin-bottom: 10px;
+}
+</style>
+<template>
+  <view class="page">
+    <view class="br">
+      <view>1.计算属性{{ aPlus }}</view>
+      <button class="weui-btn" type="primary" @tap="add">tap事件</button>
+    </view>
+    <view class="br">
+      <view>2.循环渲染</view>
+      <repeat for="{{list}}" key="index" index="index" item="item">
+        <view>{{ item }}</view>
+      </repeat>
+    </view>
+    <view class="br">
+      <view>3.父传子</view>
+      <child :mytitle="mytitle"></child>
+    </view>
+    <view class="br">
+      <view>4.子传父</view>
+      <view>{{ father_value }}</view>
+      <childb></childb>
+    </view>
+    <view class="br">
+      <view>5.条件渲染</view>
+      <view wx:if="{{true}}">true</view>
+      <view wx:if="{{false}}">false</view>
+    </view>
+    <view class="br">
+      <view>6.页面跳转</view>
+      <navigator url="/pages/cart_full">跳转到首页</navigator>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Child from '../components/child/child' // alias example
+import Childb from '../components/childb/childb' // alias example
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '顶部标题index'
+  }
+
+  components = {
+    child: Child,
+    childb: Childb
+  }
+
+  data = {
+    num: 1,
+    list: ['jack', 'mark', 'helo'],
+    mytitle: '子组件传参',
+    father_value: 'old_father'
+  }
+
+  methods = {
+    add() {
+      this.num = this.num + 1
+    },
+    getSonMsg() {
+      console.log(34)
+      this.father_value = 2
+    }
+  }
+
+  computed = {
+    aPlus() {
+      return this.num + '元'
+    }
+  }
+
+  //子传父
+  events = {
+    sendMsg: value => {
+      this.father_value = value
+    }
+  }
+
+  onLoad() {
+    console.log('onLoad')
+    wepy.request({
+      url:
+        'https://u.y.qq.com/cgi-bin/musicu.fcg?cgiKey=GetHomePage&_=1581333854885&data={%22comm%22:{%22g_tk%22:5381,%22uin%22:%22%22,%22format%22:%22json%22,%22inCharset%22:%22utf-8%22,%22outCharset%22:%22utf-8%22,%22notice%22:0,%22platform%22:%22h5%22,%22needNewCode%22:1},%22MusicHallHomePage%22:{%22module%22:%22music.musicHall.MusicHallPlatform%22,%22method%22:%22MobileWebHome%22,%22param%22:{%22ShelfId%22:[101,102,161]}},%22hotkey%22:{%22module%22:%22tencent_musicsoso_hotkey.HotkeyService%22,%22method%22:%22GetHotkeyForQQMusicMobile%22,%22param%22:{%22remoteplace%22:%22txt.miniapp.wxada7aab80ba27074%22,%22searchid%22:%221559616839293%22}}}',
+      success: res => {
+        console.log(res, 999)
+      }
+    })
+  }
+}
+</script>

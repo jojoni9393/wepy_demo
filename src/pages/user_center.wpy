@@ -1,0 +1,21 @@
+<style lang="less">
+.container {
+  background-color: pink;
+}
+</style>
+<template>
+  <view class="container">user_center</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '顶部标题test'
+  }
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>

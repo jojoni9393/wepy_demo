@@ -1,0 +1,100 @@
+<style>
+@import 'assets/style/weui.wxss';
+</style>
+
+<script>
+import wepy from 'wepy'
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/all',
+      'pages/code',
+      'pages/cart_full',
+      'pages/user_center'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      //导航栏背景颜色，如 #000000
+      navigationBarBackgroundColor: '#ffffff',
+      //导航栏标题颜色，仅支持 black / white
+      navigationBarTextStyle: 'black',
+      //导航栏标题文字内容(全局默认标题)
+      navigationBarTitleText: 'WeChat',
+      //default 默认样式
+      //custom 自定义导航栏，只保留右上角胶囊按
+      navigationStyle: 'default',
+      //全局开启下拉刷新,默认false
+      enablePullDownRefresh: true,
+      //窗口的背景色(下拉loading背景色)
+      backgroundColor: '#f7f7f7',
+      //下拉 loading 的样式，仅支持 dark / light
+      backgroundTextStyle: 'dark',
+      //***顶部窗口的背景色，仅 iOS 支持
+      backgroundColorTop: '#f7f7f7',
+      //***底部窗口的背景色，仅 iOS 支持
+      backgroundColorBottom: '#f7f7f7',
+      //页面上拉触底事件触发时距页面底部距离，单位为 px。默认50px
+      onReachBottomDistance: 50,
+      //屏幕旋转设置，支持 auto / portrait / landscape 默认portrait
+      pageOrientation: 'portrait'
+    },
+    tabBar: {
+      //	tab 上的文字默认颜色，仅支持十六进制颜色
+      color: '#5d656b',
+      //tab 上的文字选中时的颜色，仅支持十六进制颜色
+      selectedColor: '#FF0036',
+      //tab 的背景色，仅支持十六进制颜色
+      backgroundColor: '#ffffff',
+      //tabbar 上边框的颜色， 仅支持 black / white,默认black
+      borderStyle: 'black',
+      //list 接受一个数组，只能配置最少 2 个、最多 5 个 tab
+      list: [
+        {
+          //页面路径，必须在 pages 中先定义
+          pagePath: 'pages/index',
+          //tab 上按钮文字
+          text: '首页',
+          //图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px，不支持网络图片。当 position 为 top 时，不显示 icon。
+          iconPath: '/assets/images/home.png',
+          //选中时的图片路径
+          selectedIconPath: '/assets/images/home_active.png'
+        },
+        {
+          pagePath: 'pages/all',
+          text: '分类',
+          iconPath: '/assets/images/all.png',
+          selectedIconPath: '/assets/images/all_active.png'
+        },
+        {
+          pagePath: 'pages/code',
+          text: '代码',
+          iconPath: '/assets/images/code.png',
+          selectedIconPath: '/assets/images/code_active.png'
+        },
+        {
+          pagePath: 'pages/cart_full',
+          text: '购物车',
+          iconPath: '/assets/images/cart_full.png',
+          selectedIconPath: '/assets/images/cart_full_active.png'
+        },
+        {
+          pagePath: 'pages/user_center',
+          text: '用户中心',
+          iconPath: '/assets/images/user_center.png',
+          selectedIconPath: '/assets/images/user_center_active.png'
+        }
+      ],
+      //tabBar 的位置，仅支持 bottom / top,默认bottom
+      position: 'bottom',
+      //自定义 tabBar，见详情,默认：false
+      custom: false
+    }
+  }
+
+  onLaunch() {
+    console.log('on launch')
+  }
+}
+</script>
