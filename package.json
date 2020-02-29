@@ -11,7 +11,8 @@
   "author": "huangteng <379628350@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "wepy": "^1.6.0"
+    "wepy": "^1.6.0",
+    "wepy-async-function": "^1.4.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",

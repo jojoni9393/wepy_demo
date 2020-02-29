@@ -2,6 +2,23 @@
 .br {
   margin-bottom: 10px;
 }
+.iconfont {
+  color: skyblue;
+}
+.scrool_icon {
+  height: 100rpx;
+  width: 100rpx;
+  background-color: pink;
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+}
+.bgc_red {
+  background-color: red;
+}
+.color_f {
+  color: #fff;
+}
 </style>
 <template>
   <view class="page">
@@ -25,13 +42,68 @@
       <childb></childb>
     </view>
     <view class="br">
-      <view>5.条件渲染</view>
+      <view id="scroll_posion">5.条件渲染</view>
       <view wx:if="{{true}}">true</view>
       <view wx:if="{{false}}">false</view>
     </view>
     <view class="br">
-      <view>6.页面跳转</view>
-      <navigator url="/pages/cart_full">跳转到首页</navigator>
+      <view>***6.页面跳转</view>
+      <navigator url="/pages/shop_detial">
+        <view>跳转到详情页</view>
+      </navigator>
+      <navigator open-type="switchTab" url="/pages/index">
+        <view>跳转到首页(tab)</view>
+      </navigator>
+    </view>
+    <view class="br">
+      <view>7.input双向版定</view>
+      <input
+        type="text"
+        confirm-type="search"
+        focus="{{true}}"
+        value="{{input_value}}"
+        @input="change_input_value"
+        @confirm="submit_input_value"
+      />
+      <view>{{ input_value }}</view>
+      <view>提交后：{{ input_submit_value }}</view>
+    </view>
+    <view class="br">
+      <view>8.字体图标</view>
+      <view class="font_icon">
+        <view class="iconfont">&#xe6eb;</view>
+        <view class="iconfont">&#xe6ef;</view>
+        <view class="iconfont">&#xe6f0;</view>
+        <view class="iconfont">&#xe6f2;</view>
+      </view>
+    </view>
+    <view class="br">
+      <view>9.滚动事件</view>
+      <view class="scrool_icon" wx:if="{{is_scrool_icon}}" @tap="pageScrollTo"></view>
+    </view>
+    <view class="br">
+      <view>10.登录</view>
+      <button @tap="login">登录按钮</button>
+    </view>
+    <view class="br">
+      <view>11.打开地图获取位置</view>
+      <button @tap="chooseLocation">打开地图获取位置按钮</button>
+    </view>
+    <view class="br">
+      <view>11.打开收货地址</view>
+      <button @tap="chooseAddress">打开收货地址按钮</button>
+    </view>
+    <view class="br">
+      <view>11.打开设置</view>
+      <button @tap="openSetting">打开设置按钮</button>
+    </view>
+    <view class="br">
+      <view>11.打开设置</view>
+      <button :class="{bgc_red:true,color_f:true}">class背景颜色</button>
+    </view>
+    <view class="de">
+      <view>11.打开设置</view>
+      <button @getuserinfo="getuserinfo" open-type="getUserInfo">获取用户信息+登录</button>
     </view>
   </view>
 </template>
@@ -43,7 +115,7 @@ import Childb from '../components/childb/childb' // alias example
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '顶部标题index'
+    navigationBarTitleText: '代码测试'
   }
 
   components = {
@@ -55,7 +127,10 @@ export default class Index extends wepy.page {
     num: 1,
     list: ['jack', 'mark', 'helo'],
     mytitle: '子组件传参',
-    father_value: 'old_father'
+    father_value: 'old_father',
+    input_value: 'input_value',
+    input_submit_value: '',
+    is_scrool_icon: false
   }
 
   methods = {
@@ -65,6 +140,79 @@ export default class Index extends wepy.page {
     getSonMsg() {
       console.log(34)
       this.father_value = 2
+    },
+    change_input_value(e) {
+      this.input_value = e.detail.value
+    },
+    submit_input_value() {
+      this.input_submit_value = this.input_value
+    },
+    pageScrollTo() {
+      wx.pageScrollTo({
+        //1滚动位置
+        scrollTop: 0
+        //滚动时长
+        // duration: 1000
+        //2锚点位置
+        // selector: '#scroll_posion'
+      })
+    },
+    login() {
+      wx.login({
+        success(res) {
+          console.log(res)
+        }
+      })
+    },
+    chooseLocation() {
+      wx.chooseLocation({
+        success(res) {
+          console.log(res)
+        }
+      })
+    },
+    chooseAddress() {
+      wx.getSetting({
+        success(res) {
+          if (res.authSetting['scope.address'] === false) {
+            wx.showModal({
+              title: '温馨提示',
+              content: '您已经拒绝了授权，想要使用该功能请授权',
+              confirmColor: '#ff4d4f',
+              success(res) {
+                if (res.confirm) {
+                  wx.openSetting({
+                    success(res) {
+                      if (res.authSetting['scope.address'] === true) {
+                        wx.chooseAddress({
+                          success(res) {
+                            console.log(res)
+                          }
+                        })
+                      }
+                    }
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          } else {
+            wx.chooseAddress({
+              success(res) {
+                console.log(res)
+              }
+            })
+          }
+        }
+      })
+    },
+    getuserinfo(e) {
+      wx.login({
+        success(res) {
+          console.log(res, 'code')
+        }
+      })
     }
   }
 
@@ -80,7 +228,16 @@ export default class Index extends wepy.page {
       this.father_value = value
     }
   }
+  onPageScroll(config) {
+    //滚动距离
+    if (config.scrollTop > 300) {
+      this.is_scrool_icon = true
+    } else {
+      this.is_scrool_icon = false
+    }
 
+    this.$apply()
+  }
   onLoad() {
     console.log('onLoad')
     wepy.request({

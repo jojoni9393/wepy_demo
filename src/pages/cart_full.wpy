@@ -13,7 +13,7 @@ import Searchbar from '../components/searchbar/searchbar' // alias example
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '顶部标题test'
+    navigationBarTitleText: '购物车'
   }
 
   components = {
